@@ -1,0 +1,23 @@
+---
+- name: Test my server
+  hosts: linux2
+
+  tasks:
+  - name: restart
+    become: yes
+    shell: "sleep 5 && reboot"
+    async: 1
+    poll: 0
+  
+  - name: Wait for the reboot to complete if there was a change.
+    wait_for:
+      port: 22
+      host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+      search_regex: OpenSSH
+      delay: 10
+      timeout: 60
+    connection: local
+
+  - name: Check the Uptime of the servers
+    shell: "uptime"
+    register: Uptime

@@ -1,0 +1,9 @@
+
+---
+- name: Test my server
+  hosts: all
+  become: true
+
+  tasks:
+  - name: ping my servers
+    debug: var=ansible_os_family
