@@ -13,7 +13,6 @@
     authorized_key: 
        user=test2 
        state=present
-       mode: 0444
        key={{ item }}
     with_file:
         - /home/vagrant/.ssh/id_rsa.pub
