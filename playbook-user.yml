@@ -5,14 +5,26 @@
 
   tasks:
   - name: Create user
-    user: 
-      name: test2
+    user:
+      name: user
       groups: sudo
       password: $6$fKr310y.hZYLD$og.MMgYP9EI.Q90xT4FFHzXCiyUaHbOV7f62mYpwrjrpUwgbuaVC2Sx1QvjJ4R8HvOaIpwv6zaRuAujtl72tU.
+  - name: Create dir
+    file:
+      path: home/user/.ssh
+      state: directory
+      owner: user
+      group: user
+      mode: 0700
+  - name: Create file
+    file:
+      path: home/user/.ssh/authorized_keys
+      state: touch
+      owner: user
+      group: user
   - name: Add SSH
-    authorized_key: 
-       user=test2 
-       state=present
+    authorized_key:
+       user=user
        key={{ item }}
     with_file:
         - /home/vagrant/.ssh/id_rsa.pub
